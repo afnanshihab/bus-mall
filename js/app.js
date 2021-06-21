@@ -1,5 +1,27 @@
 'use strict';
 
+
+// Constructor
+// New obj
+// prototype render
+// Random function
+// get by id
+// Event Handler
+
+const imageSection = document.getElementById('imageSection');
+const leftImage = document.getElementById( 'leftImage' );
+const middleImage = document.getElementById( 'middleImage' );
+const rightImage = document.getElementById( 'rightImage' );
+const viewResult = document.getElementById ('viewResult') ;
+const listOfResult = document.getElementById ('listOfResult')
+
+let rounds = 25 ;
+let counter = 0;
+
+let leftIndex ; 
+let middleIndex ;
+let rightIndex ;
+
 let imgArray = [
   'bag.jpg',
   'banana.jpg',
@@ -24,75 +46,58 @@ let imgArray = [
 
 ];
 
-// Constructor
-// New obj
-// prototype render
-// Random function
-// get by id
-// Event Handler
-
-let imageSection = document.getElementById('imageSection');
-let leftImage = document.getElementById( 'leftImage' );
-let middleImage = document.getElementById( 'middleImage' );
-let rightImage = document.getElementById( 'rightImage' );
-
-let counter = 0;
 
 function Images( name, src ) {
   this.name = name;
   this.src = `./img/${src}`;
   this.views = 0;
   this.clicks = 0 ;
-  Images.all.push(this);
+  all.push(this);
 }
 
-Images.all = [];
+let all = [];
 
 for( let i = 0; i < imgArray.length; i++ ) {
-  // console.log(imgArray[i].split( '.' ));
+  
   new Images( imgArray[i].split( '.' )[0], imgArray[i] );
 }
 
 function render() {
-  let leftIndex = randomNumber(0, imgArray.length - 1)  ;
-  let rightIndex= randomNumber(0, imgArray.length - 1) ;
-  let middleIndex;
+ leftIndex = randomNumber(0, imgArray.length - 1)  ;
 
   do {
     middleIndex = randomNumber(0, imgArray.length - 1);
-  } while( leftIndex === rightIndex === middleImage );
+    rightIndex= randomNumber(0, imgArray.length - 1) ;
+  } while( leftIndex === rightIndex || leftIndex === middleIndex || rightIndex === middleIndex);
 
-  rightImage.src = Images.all[rightIndex].src;
-  leftImage.src = Images.all[leftIndex].src;
-  middleImage.src = Images.all[middleIndex].src;
-
-  leftClicks = leftIndex
-  rightClicks = rightIndex
-  middleClicks = middleIndex
-
-  Images.all[rightIndex].views++;
-  Images.all[leftIndex].views++;
-  Images.all[middleIndex].views++;
+  rightImage.src = all[rightIndex].src;
+  leftImage.src = all[leftIndex].src;
+  middleImage.src = all[middleIndex].src;
 
 
-  console.log(Images.all);
+  all[rightIndex].views++;
+  all[leftIndex].views++;
+  all[middleIndex].views++;
+
+
+  console.log(all);
 }
 
-let leftClicks = 0;
-let middleClicks = 0;
-let rightClicks = 0;
+
 
 function eventHandler(e) {
-  // console.log(e.target.id);
-  if((e.target.id === 'rightImage' || e.target.id === 'leftImage'  || e.target.id === 'middleImage') && counter < 25){
+
+  if((e.target.id === 'rightImage' || e.target.id === 'leftImage'  || e.target.id === 'middleImage') && counter < rounds){
+
       if (e.target.id === 'rightImage') {
-        Images.all[rightClicks].clicks++;
+        all[rightIndex].clicks++;
       }
       if (e.target.id === 'leftImage') {
-        Images.all[leftClicks].clicks++;
+        all[leftIndex].clicks++;
       }
       if (e.target.id === 'middleImage') {
-        Images.all[middleClicks].clicks++;
+        all[middleIndex].clicks++;
+        console.log(all)
       }
 
 
@@ -103,17 +108,24 @@ function eventHandler(e) {
 
 }
 
+function printResult(e) {
+  for (let i = 0; i < all.length; i++) {
+    let li = document.createElement('li'); 
+    listOfResult.appendChild(li); 
+    li.textContent =`${all[i].name} had ${all[i].clicks} votes, and was seen ${all[i].views} times.`
+  
+  }
+  viewResult.removeEventListener('click',printResult);
+}
+
 imageSection.addEventListener('click', eventHandler);
+viewResult.addEventListener('click', printResult);
+
 
 render();
 
-// console.log(Images.all);
-// leftImage.setAttribute('src', Images.all[0].src)
-// let index = randomNumber(0, imgArray.length - 1);
-// rightImage.src = Images.all[index].src;
-// console.log( leftImage, rightImage );
 
-// Helper function
+
 function randomNumber( min, max ) {
   min = Math.ceil( min );
   max = Math.floor( max );
