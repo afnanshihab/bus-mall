@@ -98,7 +98,11 @@ function eventHandler(e) {
       if (e.target.id === 'middleImage') {
         all[middleIndex].clicks++;
         console.log(all)
+      } else if (counter>= 20) {
+
+        drowChart() ;
       }
+      
 
 
     render();
@@ -123,6 +127,59 @@ viewResult.addEventListener('click', printResult);
 
 
 render();
+
+function drowChart() {
+  let name = []; 
+  let clicks = [] ; 
+  let views = [] ; 
+  for (let i = 0; i < all.length; i++) {
+    name.push(all[i].name);
+    views.push(all[i].views);
+    clicks.push(all[i].clicks);
+    
+  }
+  var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: name,
+        datasets: [{
+            label: ' # of clicks',
+            data: clicks,
+            backgroundColor: [
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 5
+
+
+        } ,{  label: ' # of views',
+        data: views,
+        backgroundColor: [
+          'rgba(255, 206, 86, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 206, 86, 1)'
+        ],
+        borderWidth: 5
+
+        }]
+        
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+myChart.datasets
+}
+
 
 
 
