@@ -15,8 +15,10 @@ const rightImage = document.getElementById( 'rightImage' );
 const viewResult = document.getElementById ('viewResult') ;
 const listOfResult = document.getElementById ('listOfResult')
 
+
 let rounds = 25 ;
 let counter = 0;
+let arr = [];
 
 let leftIndex ; 
 let middleIndex ;
@@ -63,12 +65,19 @@ for( let i = 0; i < imgArray.length; i++ ) {
 }
 
 function render() {
- leftIndex = randomNumber(0, imgArray.length - 1)  ;
+ 
 
   do {
+    leftIndex = randomNumber(0, imgArray.length - 1)  ;
     middleIndex = randomNumber(0, imgArray.length - 1);
     rightIndex= randomNumber(0, imgArray.length - 1) ;
-  } while( leftIndex === rightIndex || leftIndex === middleIndex || rightIndex === middleIndex);
+  } while( leftIndex === rightIndex || leftIndex === middleIndex || rightIndex === middleIndex || arr.includes(leftIndex) || arr.includes(middleIndex) || arr.includes(rightIndex));
+console.log(arr.includes(leftIndex) , arr.includes(middleIndex) , arr.includes(rightIndex))
+arr = [] ; 
+
+arr.push(leftIndex, middleIndex , rightIndex);
+
+
 
   rightImage.src = all[rightIndex].src;
   leftImage.src = all[leftIndex].src;
@@ -85,6 +94,8 @@ function render() {
 
 
 
+
+
 function eventHandler(e) {
 
   if((e.target.id === 'rightImage' || e.target.id === 'leftImage'  || e.target.id === 'middleImage') && counter < rounds){
@@ -98,6 +109,7 @@ function eventHandler(e) {
       if (e.target.id === 'middleImage') {
         all[middleIndex].clicks++;
         console.log(all)
+      }
       } else if (counter>= 20) {
 
         drowChart() ;
@@ -110,7 +122,7 @@ function eventHandler(e) {
 
   }
 
-}
+
 
 function printResult(e) {
   for (let i = 0; i < all.length; i++) {
@@ -180,7 +192,7 @@ var myChart = new Chart(ctx, {
 myChart.datasets
 }
 
-
+// drowChart();
 
 
 function randomNumber( min, max ) {
@@ -188,4 +200,6 @@ function randomNumber( min, max ) {
   max = Math.floor( max );
   return Math.floor( Math.random() * ( max - min + 1 ) + min ); //The maximum is inclusive and the minimum is inclusive
 }
+
+
 

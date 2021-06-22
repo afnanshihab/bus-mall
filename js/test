@@ -1,0 +1,48 @@
+
+}
+ function genRandomNum() {
+   randoOne = Math.floor(Math.random() * 20);
+   while (randoOne === prevRandoOne || randoOne === prevRandoTwo || randoOne === prevRandoThree) {
+     randoOne = Math.floor(Math.random() * 20);
+   }
+   prevRandoOne = randoOne;
+   randoTwo = Math.floor(Math.random() * 20);
+
+
+   while (randoTwo === prevRandoOne || randoTwo === prevRandoTwo || randoTwo === prevRandoThree || randoTwo === randoOne) {
+     randoTwo = Math.floor(Math.random() * 20);
+   }
+   prevRandoTwo = randoTwo;
+   randoThree = Math.floor(Math.random() * 20);
+
+
+   
+   while (randoThree === prevRandoOne || randoThree === prevRandoTwo || randoThree === prevRandoThree || randoThree === randoOne || randoThree === randoTwo){
+     randoThree = Math.floor(Math.random() * 20);
+   }
+   prevRandoThree = randoThree;
+ }
+
+
+
+
+
+
+
+
+
+
+ function noRepet (r){
+   // let nums = [],
+   let ranNums = [],
+     i = r.length,
+     j = 0;
+
+   while (i--) {
+     j = Math.floor(Math.random() * (i+1));
+     ranNums.push(nums[j]);
+     nums.splice(j,1);
+   }
+ }
+ console.log(noRepet());
+ to get the random number
