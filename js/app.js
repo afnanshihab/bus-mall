@@ -71,7 +71,9 @@ function render() {
     leftIndex = randomNumber(0, imgArray.length - 1)  ;
     middleIndex = randomNumber(0, imgArray.length - 1);
     rightIndex= randomNumber(0, imgArray.length - 1) ;
-  } while( leftIndex === rightIndex || leftIndex === middleIndex || rightIndex === middleIndex || arr.includes(leftIndex) || arr.includes(middleIndex) || arr.includes(rightIndex));
+  } while( leftIndex === rightIndex || leftIndex === middleIndex || rightIndex === middleIndex || 
+    arr.includes(leftIndex) || arr.includes(middleIndex) || arr.includes(rightIndex));
+
 console.log(arr.includes(leftIndex) , arr.includes(middleIndex) , arr.includes(rightIndex))
 arr = [] ; 
 
@@ -88,7 +90,7 @@ arr.push(leftIndex, middleIndex , rightIndex);
   all[leftIndex].views++;
   all[middleIndex].views++;
 
-
+/////////////////////////////////////////////////
   console.log(all);
 }
 
@@ -118,11 +120,13 @@ function eventHandler(e) {
 
 
     render();
+    storeMemo();
     counter++;
+    
 
   }
 
-
+  
 
 function printResult(e) {
   for (let i = 0; i < all.length; i++) {
@@ -139,6 +143,7 @@ viewResult.addEventListener('click', printResult);
 
 
 render();
+
 
 function drowChart() {
   let name = []; 
@@ -192,8 +197,20 @@ var myChart = new Chart(ctx, {
 myChart.datasets
 }
 
-// drowChart();
 
+
+
+
+function storeMemo(){
+  let memoOne = JSON.stringify(all);
+  localStorage.setItem('imagesStorage', memoOne)
+
+} 
+
+function getStore(){
+  all = JSON.parse(localStorage.getItem('imagesStorage'))
+} 
+getStore();
 
 function randomNumber( min, max ) {
   min = Math.ceil( min );
@@ -203,3 +220,4 @@ function randomNumber( min, max ) {
 
 
 
+////////////////////////////////////////
