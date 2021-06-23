@@ -49,11 +49,11 @@ let imgArray = [
 ];
 
 
-function Images( name, src ) {
+function Images( name, src , viewss = 0 , clicks = 0 ) {
   this.name = name;
-  this.src = `./img/${src}`;
-  this.views = 0;
-  this.clicks = 0 ;
+  this.src = src;
+  this.views = viewss;
+  this.clicks = clicks ;
   all.push(this);
 }
 
@@ -61,7 +61,7 @@ let all = [];
 
 for( let i = 0; i < imgArray.length; i++ ) {
   
-  new Images( imgArray[i].split( '.' )[0], imgArray[i] );
+  new Images( imgArray[i].split( '.' )[0],`./img/${imgArray[i]} `);
 }
 
 function render() {
@@ -117,10 +117,10 @@ function eventHandler(e) {
         drowChart() ;
       }
       
-
+    localStorage.setItem('imagesStorage',JSON.stringify(all))
 
     render();
-    storeMemo();
+    
     counter++;
     
 
@@ -201,16 +201,23 @@ myChart.datasets
 
 
 
-function storeMemo(){
-  let memoOne = JSON.stringify(all);
-  localStorage.setItem('imagesStorage', memoOne)
 
-} 
 
 function getStore(){
-  all = JSON.parse(localStorage.getItem('imagesStorage'))
+  let gittingData = JSON.parse(localStorage.getItem('imagesStorage')) ;
+ if (gittingData){
+   all=[] ;
+   for (let i = 0; i < gittingData.length; i++) {
+     new Images (gittingData[i].name ,gittingData[i].src ,gittingData[i].viewss ,gittingData[i].clicks , );
+     
+   }
+ }
 } 
 getStore();
+
+
+
+
 
 function randomNumber( min, max ) {
   min = Math.ceil( min );
